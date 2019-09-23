@@ -1,6 +1,6 @@
 public class PiBBP {
     public PiBBP(int d) {
-        
+        String d16PiHexaJegyek;
         double d16Pi = 0.0d;
         
         double d16S1t = d16Sj(d, 1);
