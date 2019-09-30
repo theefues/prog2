@@ -9,18 +9,18 @@
     <section>
         <title>OO szemlélet</title>
         <para>
-		A módosított polártranszformációs normális generátor beprogramozása Java nyelven. Mutassunk rá,
-hogy a mi természetes saját megoldásunk (az algoritmus egyszerre két normálist állít elő, kell egy
-példánytag, amely a nem visszaadottat tárolja és egy logikai tag, hogy van-e tárolt vagy futtatni kell
-az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
-https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_5.pdf (16-22 fólia)
-Ugyanezt írjuk meg C++ nyelven is! (lásd még UDPROG repó: source/labor/polargen)
-
+        A módosított polártranszformációs normális generátor beprogramozása Java nyelven. Mutassunk rá,
+        hogy a mi természetes saját megoldásunk (az algoritmus egyszerre két normálist állít elő, kell egy
+        példánytag, amely a nem visszaadottat tárolja és egy logikai tag, hogy van-e tárolt vagy futtatni kell
+        az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
+        https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_5.pdf (16-22 fólia)
+        Ugyanezt írjuk meg C++ nyelven is! (lásd még UDPROG repó: source/labor/polargen)
         </para>
         <para>
             Megoldás forrása: <link xlink:href="https://github.com/theefues/prog2/blob/master/Arroway/Polargen.java">https://github.com/theefues/prog2/blob/master/Arroway/Polargen.java</link>        
         </para>
-        <programlisting language='java'><![CDATA[import java.util.Random;
+        <programlisting language='java'><![CDATA[
+import java.util.Random;
 import java.io.*;
 import java.lang.Math;
 
@@ -79,8 +79,12 @@ abból pedig elveszünk egyet. Majd vesszük a kettő négyzetösszegét. Ezt ad
 Ez után felvesszük a multiplier változót, ami az s -2szeres logaritmus hányadosának a négyzetgyöke. A
 v2-ot megszorozzuk vele, ez lesz a tárolt érték. Majd kiadjuk, hogy van tárolt érték és visszaadjuk a v1 * multiplier eredményét.
         </para>
-        <para>Majdnem ugyanezt a kódot találjuk a JDK sourcekódjában is.</para>
-        <para>Ugyanez a normálist visszaadó program C++-ban így néz ki:</para>
+        <para>
+            Majdnem ugyanezt a kódot találjuk a JDK sourcekódjában is.
+        </para>
+        <para>
+            Ugyanez a normálist visszaadó program C++-ban így néz ki:
+        </para>
                 <programlisting language='java'><![CDATA[
 #include polargen.h
 double
@@ -179,19 +183,32 @@ példányokat poolozza!
         <para>
             Megoldás forrása:  <link xlink:href="https://github.com/theefues/prog2/blob/master/Arroway/Gagyi.java">https://github.com/theefues/prog2/blob/master/Arroway/Gagyi.java</link>             
         </para>
-                <programlisting language='java'><![CDATA[import java.lang.Number;
+                <programlisting language='java'><![CDATA[
+import java.lang.Number;
 class Gagyi {
         public static void main (String[] args) {
-        int x = 300;
-        int t = 300;
-        while (x <= t && x >= t && t != x);
-        System.out.println("infinity");
+        Integer x = 300;
+        Integer t = 300;
+        while (x <= t && x >= t && t != x)
+            System.out.println("infinity");
+        }
+
+}]]></programlisting>
+                <programlisting language='java'><![CDATA[
+import java.lang.Number;
+class Gagyi {
+        public static void main (String[] args) {
+        Integer x = 127;
+        Integer t = 127;
+        while (x <= t && x >= t && t != x)
+            System.out.println("nem infinity");
         }
 
 }]]></programlisting>
 
         <para>
-            A while ciklusban deklarált formális értékei, amennyiben 128-nál nagyobb értéket vesznek fel, végtelen ciklusba lép be. Ellenkező esetben a program futása véget ér.
+            A while ciklusban deklarált formális értékei, amennyiben 127-nél nagyobb értéket vesznek fel, végtelen ciklusba lép be. Az importált
+            könyvtár a JDK Number könyvtárából veszi az x és a t értékét, ezzel magyarázható a jelenség, mivel az itt jelenlévő Integer csak -128 és 127 közötti értékekkel operál.
         </para>
         
     </section>  
@@ -246,8 +263,8 @@ melyet szeretném, ha átélnél).
             hogy tudnánk az előtte levő számokat. Ez az eljárás egyáltalán nem újkeletű: 1995-ben talált Bailey-Borwein-Plouffe féle algoritmust alkalmazva könnyen meghatározható.
         </para>
                 <programlisting language='java'><![CDATA[public class PiBBP {
-    public PiBBP(int d) {
-        String d16PiHexaJegyek;
+    public PiBBP(int d) { // ez a funkció számolja ki a hexadecimális értéket
+        String d16PiHexaJegyek; // ez a változó fogja tárolni a kapott értéket
         double d16Pi = 0.0d;
         
         double d16S1t = d16Sj(d, 1);
