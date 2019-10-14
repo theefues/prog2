@@ -12,16 +12,18 @@
 		Fordítsuk le és futtassuk a Javat tanítok könyv MandelbrotHalmazNagyító.java forrását úgy, hogy a
 fájl nevekben és a forrásokban is meghagyjuk az ékezetes betűket!
 https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/adatok.html
+        </para>
+        <para>
+            A Java nyelv egyik sajátossága, hogy képes kezelni unicode karaktereket is, így a magyar betűk is használhatóak a forráskódban minden gond nélkül. A MandelbrotHalmaz ezen az elven készült, és ahol lehet, ott a magyar hosszú magánhangzók voltak előnyben részesítve.
+            A MandelbrotHalmazNagyító programhoz szükség van a MandelbrotHalmaz főosztályra. Ha mindkét forrásunk megvan és megpróbáljuk lefordítani, hibát kapunk. Elméletileg. Nekem ez elsőre sikerült, így nem volt különösebb probléma. A program megjelenít egy mandelbrot halmazt,
+            amelyre a kurzor segítségével ki tudunk jelölni részeket egy téglalap segítségével, így egy nagyított, újra generált képet kapunk. Ha mégsem sikerülne, annyi a dolgunk, hogy a fordítóban
+            átállítjuk a karakterkódolást UTF-8-ra. Ezt az -encoding kapcsoló segítségével adhatjuk meg, ha beírjuk utána, hogy utf8.
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/mandelnagyit.png"  scale="50"/>
+                </imageobject>
+            </mediaobject>
 
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
         </para>
     </section>        
 
@@ -42,39 +44,33 @@ struktúrájába!
             Tanulságok, tapasztalatok, magyarázat...
         </para>
     </section> 
-    <section>
-        <title>l334d1c45</title>
+    	<section>
+        <title>Fullscreen</title>
         <para>
-		Írj olyan OO Java vagy C++ osztályt, amely leet cipherként működik, azaz megvalósítja ezt a betű
-helyettesítést: https://simple.wikipedia.org/wiki/Leet (Ha ez első részben nem tetted meg, akkor írasd
-ki és magyarázd meg a használt struktúratömb memóriafoglalását!)
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section> 
-    <section>
-        <title>Full screen</title>
-        <para>
-		Készítsünk egy teljes képernyős Java programot!
+            Készítsünk egy teljes képernyős Java programot!
 Tipp: https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#labirintus_jatek
         </para>
         <para>
-            Megoldás videó:
+            Megoldás forrása:  <link xlink:href="https://github.com/theefues/prog2/blob/master/Chomsky/LabirintusJ%C3%A1t%C3%A9k.java">https://github.com/theefues/prog2/blob/master/Chomsky/LabirintusJ%C3%A1t%C3%A9k.java</link>       
         </para>
+        <para>Tutor: Győri Márk</para>
         <para>
-            Megoldás forrása:                
+            A feladathoz adott tipp alapján a labirintus játék teljes képernyős változatát készítettem el. A játék futtatásához szükségesek még a képfájlok is, ezeket az adott linkről szintén
+            le lehet tölteni. A futtatáshoz figyelnünk kell a kódolásra, hiszen ez is unicode karaktereket tartalmaz, amiket nem minden fordító szeret. Így ha nem sikerül lefordítanunk elsőre,
+            Linuxon használjuk az -encoding kapcsolót utf8 értékkel. Ha sikerült felélesztenünk a programot, még nem lesz teljes képernyős. Ehhez le kell kérnünk a felhasználó grafikus környezetét,
+            valamint több monitor esetén a fő monitort. Ezekre szerencsére létezik a Javában függvény, így nem kell bajlódnunk a megírásával. java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment() függvény
+            segítségével lekérhetjük az adott grafikus környezetet, a graphicsEnvironment.getDefaultScreenDevice() függvénnyel pedig az alapértelmezett, fő monitort határozhatjuk meg. 
+            Ha ezekkel megvagyunk, a program alapértelmezetten 4:3 képarányra lett tervezve, így csak akkor futtathatjuk, ha a monitorunk támogatja a felbontást teljes képernyőben. Erre is van egy függvényünk, mégpedig a
+            graphicsDevice.isFullScreenSupported(), amely megmondja, hogy futtatható-e a program teljes képernyőben. graphicsDevice.setFullScreenWindow(this) függvény segítségével a programunk elindul 
+            full screen módban. Amennyiben nem támogatott a teljes képernyős mód, a program elindul keretes ablak módban, 1024x768-as felbontásban.
+             <mediaobject>
+            <imageobject>
+                <imagedata fileref="img/labirintus.png" scale="40" />
+            </imageobject>
+        </mediaobject>
+
         </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>     
+    </section> 	
 	<section>
         <title>Paszigráfia Rapszódia OpenGL full screen vizualizáció</title>
         <para>
@@ -127,14 +123,44 @@ Dolgozzuk be egy külön projektbe a projekt Perceptron osztályát!
 Lásd https://youtu.be/XpBnR31BRJY
         </para>
         <para>
-            Megoldás videó:
-        </para>
-        <para>
             Megoldás forrása:                
         </para>
+        <para>Tutor: Győri Márk</para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            A mandelbrot png generátorhoz szükségünk van a libpng könyvtárra. Ezt letöltve beincludeoljuk a cpp fájlunkba. A perceptron osztály a Nahshon projektből lett átemelve, majd implementálva
+            a kódba. Ezt a mlp.hpp headerben tároljuk. A futtatás a forrásfájl nevének bekérésével együtt történik, amit első argumentumként kell bevinnünk. Ha ezzel megvagyunk, bekérjük a magasságát, valamint
+            a szélességét. Ezt összeszorozzuk, majd példányosítjuk a perceptron osztályunkat a kapott érték segítségével. Ezek után végigmegyünk a kép minden pixelén, amit átállít pirosra. Ez után kiírja az
+            eredményt a standard outputra. Ha lefuttot a program, felszabadítja a memóriát.
         </para>
+        <programlisting language='c'><![CDATA[
+#include <iostream>
+#include "png++/png.hpp"
+#include "mlp.hpp"
+
+using namespace std;
+using namespace png;
+
+int main ( int argc, char *argv[] )
+{
+	image <rgb_pixel> png_image (argv[1]);
+	int size = png_image.get_width() * png_image.get_height();
+
+	Perceptron* p = new Perceptron(3, size, 256, 1);
+	
+	double* image = new double[size];
+
+	for (int i{0}; i < png_image.get_width(); i++)
+		for (int j{0}; j < png_image.get_height(); j++)
+			image[i * png_image.get_width() + j] = png_image[i][j].red;
+
+	double value = (*p)(image);
+	cout <<" "<< value << endl;
+	
+	delete p;
+	delete [] image;
+}
+]]></programlisting>
+
     </section> 	
         
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
