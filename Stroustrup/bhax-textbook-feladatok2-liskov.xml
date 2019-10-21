@@ -1,0 +1,391 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Liskov!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Liskov helyettesítés sértése</title>
+        <para>
+		Írjunk olyan OO, leforduló Java és C++ kódcsipetet, amely megsérti a Liskov elvet! Mutassunk rá a
+megoldásra: jobb OO tervezés.
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_1.pdf (93-99 fólia)
+(számos példa szerepel az elv megsértésére az UDPROG repóban, lásd pl. source/binom/BatfaiBarki/madarak/)
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            A Liskov helyettesítés a S.O.L.I.D. alapelvek tagja, amelynek lényege, hogy minden osztály legyen helyettesíthető leszármazott osztállyal anélkül, hogy a program működését bármivel is befolyásolná. Egyszerűen a madarak példáival lehet bemutatni ezt.
+            Adott nekünk a Madarak osztály, amelynek van egy belső funkciója, a repülés(). Létrehozunk két másik alosztályt, amely a Madarakat bővíti. Legyen ez a Sas és a Pingvin. Ha a Sas a madaraktól örököl, akkor ezzel együtt a repülés() "képességet" is képes használni.
+            Ugyanez igaz a Pingvin osztályra is, és itt kezdődnek a gondok. A pingvin ugyanis nem tud repülni, így a programunk bár szintaktikailag működni fog, de logikailag helytelenül. 
+        </para>
+        <programlisting language='c++'><![CDATA[
+#include <stdio.h>
+
+class Madarak {
+            public:
+                 char repules() { printf("Repülök\n"); };
+};
+
+class Sas : public Madarak {};
+class Pingvin : public Madarak {};
+
+int main() {
+        Sas sas;
+        Pingvin pingvin;
+        sas.repules();
+        pingvin.repules();
+}
+        ]]></programlisting>
+        <para>
+            Ezért be kell vezetnünk egy új alosztályt a, a RepülőMadarakat, amelynek megadjuk a
+            repülés() funkciót, a Madarak főosztályból pedig elvesszük. Így attól, hogy valami Madár, még nem biztos, hogy RepülőMadár is egyben. Ezzel a módszerrel pedig a Sas osztályunkat a RepülőMadaraktól örököltetjük, a Pingvin osztályunkat pedig csak simán a Madaraktól.
+            Így a Sas tud repülni, a Pingvin viszont nem. Kódolásban ez a levezetés valahogy így néz ki:
+        </para>
+                <programlisting language='c++'><![CDATA[
+#include <stdio.h>
+
+class Madarak {
+
+};
+
+class RepuloMadarak : public Madarak {
+            public:
+                 char repules() { printf("Repülök\n"); };
+}
+class Sas : public RepuloMadarak {};
+class Pingvin : public Madarak {};
+
+int main() {
+        Sas sas;
+        Pingvin pingvin;
+        sas.repules();
+        pingvin.repules();
+}
+        ]]></programlisting>
+        <para>Így a programunk hibát fog kiírni, hiszen a pingvin osztálynak nincs repülés funkciója. </para>
+        <para>Javában a fentebbi két kód pedig így néz ki:</para>
+               <programlisting language='java'><![CDATA[
+class Madarak {
+    public String repules() { System.out.println("Repülök!"); };
+};
+
+class Sas extends Madarak {};
+class Pingvin extends Madarak {};
+
+public class Main {
+    public static void main(String[] args) {
+        Sas sas = new Sas();
+        Pingvin pingvin = new Pingvin();
+        sas.repules();
+        pingvin.repules();
+    }
+}
+        ]]></programlisting>
+        <programlisting language='java'><![CDATA[
+class Madarak {
+
+};
+
+class RepuloMadarak extends Madarak {
+                public String repules() { System.out.println("Repülök!"); };
+}
+class Sas extends RepuloMadarak {};
+class Pingvin extends Madarak {};
+
+public class Main {
+    public static void main(String[] args) {
+        Sas sas = new Sas();
+        Pingvin pingvin = new Pingvin();
+        sas.repules();
+        pingvin.repules();
+    }
+}
+        ]]></programlisting>
+        
+    </section>
+       <section>
+        <title>Szülő-gyerek</title>
+        <para>
+Írjunk Szülő-gyerek Java és C++ osztálydefiníciót, amelyben demonstrálni tudjuk, hogy az ősön
+keresztül csak az ős üzenetei küldhetőek!
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_1.pdf (98. fólia)4
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            Adott egy osztályunk, jelen esetben legyen a Téglalap osztály. Ennek az osztálynak van egy méret() függvénye, ami visszaadja a magasságát és a szélességét. A téglalap osztályhoz hozzárendelünk egy Négyzetek nevű alosztályt. Ennek létrehozunk egy terület() függvényt.
+</para>
+<programlisting language='c++'><![CDATA[
+#include <stdio.h>
+
+class Teglalap {
+    public:
+        int meret() {
+            int height, width;
+                int meret[2] = {height, width};
+            return meret[2];
+        }
+};
+
+class Negyzet : public Teglalap {
+    public:
+        int terulet(int height, int width){
+            return height*width;
+        }
+};
+
+int main() {
+  Teglalap teglalap;
+  Negyzet negyzet;
+  negyzet.meret();
+  printf("%d",negyzet.terulet(10,14));
+  teglalap.meret();
+  teglalap.terulet();//itt a hiba
+
+}
+]]></programlisting>
+<para>
+    Ha megpróbáljuk lefordítani a programot, hibát kapunk, miszerint a téglalap osztály nem tartalmaz terület függvényt. Ha azt a sort kiszedjük belőle, minden gond nélkül lefordul. Ugyanez Javában így néz ki:
+</para>
+        <programlisting language='java'><![CDATA[
+class Teglalap {
+    private int height;
+    private int width;
+
+    public int meret() {
+        int[] meret = new int[]{height, width};
+        return meret[1];
+    }
+}
+
+class Negyzet extends Teglalap {
+    public int terulet(int height, int width){
+        return height * width;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Teglalap teglalap = new Teglalap();
+        Negyzet negyzet = new Negyzet();
+        System.out.println(negyzet.terulet(1,1));
+        System.out.println(teglalap.terulet(1,1));//itt a hiba
+    }
+}
+]]></programlisting>
+    </section>
+	<section>
+        <title>Anti OO</title>
+        <para>
+A BBP algoritmussal
+a Pi hexadecimális kifejtésének a 0. pozíciótól számított 10^6, 10^7, 10^8 darab
+jegyét határozzuk meg C, C++, Java és C# nyelveken és vessük össze a futási időket!
+https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/apas03.html#id561066
+        </para>
+        <para>
+            Megoldás forrása: <link xlink:href="https://github.com/theefues/prog2/blob/master/Liskov/PiBBPBench.java">https://github.com/theefues/prog2/blob/master/Liskov/PiBBPBench.java</link>        
+        </para>
+        <para>
+        A feladatunk az volt, hogy az előző fejezetben elkészített BBP algoritmust alakítsuk át benchmarkká, amely megmutatja, mennyi időre van szüksége különböző nyelveken a gépnek, hogy lekérje a pi hexadecimális értékét a 0.tól az adott helyig számítva, majd kiírja, mennyi
+        időre volt hozzá szükség másodpercben. Az értékek minden nyelvben ugyanazok voltak. A 10^6, 10^7 valamint a 10^8. A kódban a különböző értékekkel való munkához csak két helyen kell belenyúlnunk a kódba:
+        </para>
+        <programlisting language='java'><![CDATA[
+        ...
+        long delta = System.currentTimeMillis();
+        
+        for(int d=1000000; d<1000001; ++d) {
+             d16Pi = 0.0d;
+            
+            d16S1t = d16Sj(d, 1);
+            d16S4t = d16Sj(d, 4);
+            d16S5t = d16Sj(d, 5);
+            d16S6t = d16Sj(d, 6);
+            
+            d16Pi = 4.0d*d16S1t - 2.0d*d16S4t - d16S5t - d16S6t;
+            
+            d16Pi = d16Pi - Math.floor(d16Pi);
+            
+            jegy = (int)Math.floor(16.0d*d16Pi);
+        }
+        System.out.println(jegy);
+        delta = System.currentTimeMillis() - delta;
+        System.out.println(delta/1000.0);
+        ...
+        ]]></programlisting>
+  
+        <para>Felveszünk egy delta változót, amelyben a számolás előtti időt tároljuk el milliszekundumban. A for cikluson belül található d változó értékét kell megváltoztatnunk az általunk kívánt számra. A cikluson belül pedig kiszámoljuk a pi d szerinti értékét a 0. helytől 
+        számolva, majd az eredményt a jegy változóban tároljuk. Első esetben ez a 1000000, második esetben a 10000000, végül pedig a 100000000. Mivel csak kifejezetten ezt az egy értéket akarjuk megkapni, a for ciklust csak egyszer
+        kell lefuttatnunk, így az előzőleg deklarált számhoz egyet hozzáadva hasonlítunk. Ha végzett a program a számolással, kiíratja a kapott eredményeket az outputra. Minél nagyobb az érték, annál hosszabb a mérési idő, ahogy az alább is látható. 
+        Az első szám a tízes hatványa, a második érték pedig a futtatás és az eredmény között eltelt idő másodpercben.</para>
+        <para>
+        Java nyelven a következő eredményeket kaptuk az adott értékekre:
+        <figure>
+            <title>Java benchmark 10^6</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/java6.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>Java benchmark 10^7</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/java7.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>Java benchmark 10^8</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/java8.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+        <para>C-ben is hasonlók az értékeink:
+                <figure>
+            <title>C benchmark 10^6</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/c6.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>C benchmark 10^7</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/c7.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>C benchmark 10^8</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/c8.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+        <para>
+        Végül pedig a C# eredményei:
+        <figure>
+            <title>C# benchmark 10^6</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/cs6.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>C# benchmark 10^7</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/cs7.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>C# benchmark 10^8</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/cs8.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+        <para>
+            Összesítésben a Java győzött, mivel ezen a nyelven futott le a leggyorsabban a 10^8 számjegyű eredmény.
+            <figure>
+            <title>Összegzés</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/table.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+    </section>
+	<section>
+        <title>Hello, Android!</title>
+        <para>
+Élesszük fel az SMNIST for Humans projektet!
+https://gitlab.com/nbatfai/smnist/tree/master/forHumans/SMNISTforHumansExp3/app/src/main
+Apró módosításokat eszközölj benne, pl. színvilág.
+        </para>
+        <para>
+            Megoldás forrása:  <link xlink:href="https://upld.ga/t/17_SMNIST.zip">https://upld.ga/t/17_SMNIST.zip</link>              
+        </para>
+        <para>
+            Tutor: Győri Márk
+        </para>
+        <para>
+            Feladatunk az volt, hogy felélesszük az SMNIST projektet. Ennek a megoldásához szükségünk lesz az Android Studiora. Ezt a Google-be beírva könnyen letölthetjük. Második sorban
+            kell nekünk még az SMNIST forrása, amely kisebb módosítások után beimportálható a programba. Ha sikerült az importálás, ez a kép fogad bennünket:
+        <figure>
+            <title>Android Studio</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/csandroid.png"  scale="40"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+        <para>Ha szeretnénk változtatni valamit a programban, péládul a színvilágát, akkor azt az SMNISTSurfaceView.java forráson belül tehetjük meg. A 310. sor környékén, a cinit funkciónkon
+        belül módosíthatjuk a porgram különböző részeinek a színét. A háttérszín módosításához az int[] bgColor tömböt kell megkeresnünk.
+                <figure>
+            <title>Android Studio</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/hatter.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <figure>
+            <title>Android Studio</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/csandroid2.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+        <para>Az általam átírt random színek így néznek ki élesben, a buildelt APK-val:
+        <figure>
+            <title>Android Studio</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/smnist.png"  scale="20"/>
+                </imageobject>
+            </mediaobject>
+        </figure></para>
+    </section>
+	<section>
+        <title>Ciklomatikus komplexitás</title>
+        <para>
+Számoljuk ki valamelyik programunk függvényeinek ciklomatikus komplexitását! Lásd a fogalom
+tekintetében a https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_2.pdf (77-79
+fóliát)!
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            Tanulságok, tapasztalatok, magyarázat...
+        </para>
+    </section>
+        
+        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                

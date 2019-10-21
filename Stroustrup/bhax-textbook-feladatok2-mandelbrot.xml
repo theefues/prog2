@@ -1,0 +1,214 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Mandelbrot!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Reverse engineering UML osztálydiagram</title>
+        <para>
+		UML osztálydiagram rajzolása az első védési C++ programhoz. Az osztálydiagramot a forrásokból
+generáljuk (pl. Argo UML, Umbrello, Eclipse UML) Mutassunk rá a kompozíció és aggregáció
+kapcsolatára a forráskódban és a diagramon, lásd még: https://youtu.be/Td_nlERlEOs.
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_6.pdf (28-32 fólia)
+
+        </para>
+        <para>
+            Megoldás forrása:     <link xlink:href="https://github.com/theefues/prog2/blob/master/Mandelbrot/LZWBinFa.cpp">https://github.com/theefues/prog2/blob/master/Mandelbrot/LZWBinFa.cpp</link>           
+        </para>
+        <para>
+            A feladatunk az volt, hogy az első védési programunkhoz - ami az LZWBinFa C++-os verziója - készítsünk egy UML diagramot. Az UML az Unified Modelling Language rövidítése, egy modellező nyelv - nevéből is adódóan - amely a rendszertervezők, szoftvermérnökök
+            számára készült, hogy könnyebben átláthassák az adott program felépítését. Erre a feladatra én az Umbrello nevű programot használom. Itt beimportáltam az LZWBinFa forrását, amiből a program generált egy UML class diagramot. Mivel a program két classból épül fel,
+            ezért két sárga négyzetet kapunk. A vonal felett a változók, a vonal alatt pedig a funkciók találhatóak az adott class szerint. Így néz ki a valóságban:
+        <figure>
+            <title>UML Diagram az LZWBinFa C++ programhoz</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/umllzw.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        </para>
+    </section>        
+
+      <section>
+        <title>Forward engineering UML osztálydiagram</title>
+        <para>
+		UML-ben tervezzünk osztályokat és generáljunk belőle forrást!
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            A feladatban pont az előző ellentettjét kell csinálnunk. Nem egy már meglévő forrásból kell UML diagramot készítenünk, hanem UML diagramból egy forrást. 
+            Ehhez szintén az Umbrello programot fogom használni. Készítenünk kell egy új class diagramot. A munkafelületen jobb klikkelve létrehozunk egy üres osztályt, amit én TesztClassnak neveztem el.
+            Így kaptunk egy üres sárga téglalapot, amelyen belül létre tudunk hozni különböző attribútumokat vagy funkciókat. Ezeknek beállíthatjuk az típusát, értékeit, láthatóságát vagy adott esetben a paramétereit.
+            Én két privát változót fogok létrehozni, egy int és egy char típusút, valamint három funkciót, a haSikerul boolean, randomString string, valamint a szorzas int típusúakat.
+        </para>
+        <para>
+            Így tudjuk bevinni az adatokat a programon belül (bal oldalon az attribútum, jobb oldalon a funkció bevitel):
+              <figure>
+            <title>UML Diagram adatbevitel</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/testclass.png"  scale="60"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        A kész diagramunk pedig így fog kinézni, ha mindent a fentiek szerint csináltunk:
+        <figure>
+            <title>UML Diagram</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/tesztclass.png"  scale="80"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        Ezt legenerálva forráskóddá, C++ esetében kapunk egy header és egy cpp fájlt, amiknek a tartalma pontosan megegyezik azzal, amit megadtunk a programban.
+        A cpp fájl tartalma:
+        </para>
+        <programlisting language='c++'><![CDATA[
+#include "TesztClass.h"
+
+TesztClass::TesztClass () {
+initAttributes();
+}
+
+TesztClass::~TesztClass () { }
+
+void TesztClass::initAttributes () {
+}
+
+
+        ]]></programlisting>
+        <para>Valamint a header fájl tartalma:</para>
+                <programlisting language='c++'><![CDATA[
+
+#ifndef TESZTCLASS_H
+#define TESZTCLASS_H
+
+#include <string>
+
+class TesztClass
+{
+public:
+
+  TesztClass ();
+
+  virtual ~TesztClass ();
+
+  bool haSikerul ()
+  {
+  }
+
+  std::string randomString ()
+  {
+  }
+  
+  int szorzas (int elso, int masodik)
+  {
+  }
+
+protected:
+public:
+
+protected:
+
+public:
+
+protected:
+
+
+private:
+
+  int Szamolo;
+  char randomKarakter;
+public:
+
+private:
+
+public:
+  void setSzamolo (int new_var)   {
+      Szamolo = new_var;
+  }
+  int getSzamolo ()   {
+    return Szamolo;
+  }
+
+  void setRandomKarakter (char new_var)   {
+      randomKarakter = new_var;
+  }
+
+randomKarakter ()   {
+    return randomKarakter;
+  }
+private:
+
+
+  void initAttributes () ;
+
+};
+
+#endif // TESZTCLASS_H
+
+        ]]></programlisting>
+    </section> 
+	    <section>
+        <title>Egy esettan</title>
+        <para>
+		A BME-s C++ tankönyv 14. fejezetét (427-444 elmélet, 445-469 az esettan) dolgozzuk fel!
+
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            Tanulságok, tapasztalatok, magyarázat...
+        </para>
+    </section> 
+	    <section>
+        <title>BPMN</title>
+        <para>
+		Rajzoljunk le egy tevékenységet BPMN-ben!
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf (34-47 fólia)
+        </para>
+        <para>
+            A fealadat az volt, hogy rajzoljunk le egy tevékenységet BPMN-ben, tehát folyamatábrával. Én egy weboldalra való bejelentkezés folyamatát vázoltam fel.
+             <figure>
+            <title>Bejelentkezés</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/bpmn.png"  scale="80"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        Kezdésként megvizsgálja a böngészőböl betöltött weboldal, hogy a felhasználó be van-e jelentkezve. Ha igen, tehát az erre való cookie létezik, továbbenged a felhasználói felületre, ami
+        csak a bejelentkezés után érhető el. Ha nem létezik, akkor bekéri az adatokat, ami a felhasználónév és a jelszó. Ezt elküldi a szervernek, ami feldolgozza a megadott adatokat és 
+        összehasonlítja a szerver adatbázisában szereplő adatokkal. Amennyiben megegyeznek, az oldal létrehozza a szükséges cookie-t, ami a bejelentkezési sessiont tárolja, és továbbengedi a
+        felhasználót az eddig blokkolt tartalomhoz. Amennyiben a bevitt adatok nem egyeznek meg, egy hibaüzenetet küld a felhasználónak, miszerint a megadott adatok közül valamelyik nem megfelelő.
+        Ez után újra próbálkozhat a belépéssel. Ez addig fog ismétlődni, amíg végül nem a megfelelő adatokat adja meg.
+        </para>
+    </section> 
+            <section>
+        <title>TeX UML</title>
+        <para>
+		Valamilyen TeX-es csomag felhasználásával készíts szép diagramokat az OOCWC projektről (pl.
+use case és class diagramokat).
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            Tanulságok, tapasztalatok, magyarázat...
+        </para>
+    </section> 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                
