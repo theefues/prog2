@@ -17,7 +17,7 @@ https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/adatok.html
             A Java nyelv egyik sajátossága, hogy képes kezelni unicode karaktereket is, így a magyar betűk is használhatóak a forráskódban minden gond nélkül. A MandelbrotHalmaz ezen az elven készült, és ahol lehet, ott a magyar hosszú magánhangzók voltak előnyben részesítve.
             A MandelbrotHalmazNagyító programhoz szükség van a MandelbrotHalmaz főosztályra. Ha mindkét forrásunk megvan és megpróbáljuk lefordítani, hibát kapunk. Elméletileg. Nekem ez elsőre sikerült, így nem volt különösebb probléma. A program megjelenít egy mandelbrot halmazt,
             amelyre a kurzor segítségével ki tudunk jelölni részeket egy téglalap segítségével, így egy nagyított, újra generált képet kapunk. Ha mégsem sikerülne, annyi a dolgunk, hogy a fordítóban
-            átállítjuk a karakterkódolást UTF-8-ra. Ezt az -encoding kapcsoló segítségével adhatjuk meg, ha beírjuk utána, hogy utf8.
+            átállítjuk a karakterkódolást ISO-8859-ra. Ezt az -encoding kapcsoló segítségével adhatjuk meg, ha beírjuk utána, hogy ISO-8859.
             <mediaobject>
                 <imageobject>
                     <imagedata fileref="img/mandelnagyit.png"  scale="50"/>
@@ -60,14 +60,15 @@ Tipp: https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#l
             Linuxon használjuk az -encoding kapcsolót utf8 értékkel. Ha sikerült felélesztenünk a programot, még nem lesz teljes képernyős. Ehhez le kell kérnünk a felhasználó grafikus környezetét,
             valamint több monitor esetén a fő monitort. Ezekre szerencsére létezik a Javában függvény, így nem kell bajlódnunk a megírásával. java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment() függvény
             segítségével lekérhetjük az adott grafikus környezetet, a graphicsEnvironment.getDefaultScreenDevice() függvénnyel pedig az alapértelmezett, fő monitort határozhatjuk meg. 
-            Ha ezekkel megvagyunk, a program alapértelmezetten 4:3 képarányra lett tervezve, így csak akkor futtathatjuk, ha a monitorunk támogatja a felbontást teljes képernyőben. Erre is van egy függvényünk, mégpedig a
-            graphicsDevice.isFullScreenSupported(), amely megmondja, hogy futtatható-e a program teljes képernyőben. graphicsDevice.setFullScreenWindow(this) függvény segítségével a programunk elindul 
-            full screen módban. Amennyiben nem támogatott a teljes képernyős mód, a program elindul keretes ablak módban, 1024x768-as felbontásban.
-             <mediaobject>
+                         <mediaobject>
             <imageobject>
                 <imagedata fileref="img/labirintus.png" scale="40" />
             </imageobject>
         </mediaobject>
+            Ha ezekkel megvagyunk, a program alapértelmezetten 4:3 képarányra lett tervezve, így csak akkor futtathatjuk, ha a monitorunk támogatja a felbontást teljes képernyőben. Erre is van egy függvényünk, mégpedig a
+            graphicsDevice.isFullScreenSupported(), amely megmondja, hogy futtatható-e a program teljes képernyőben. graphicsDevice.setFullScreenWindow(this) függvény segítségével a programunk elindul 
+            full screen módban. Amennyiben nem támogatott a teljes képernyős mód, a program elindul keretes ablak módban, 1024x768-as felbontásban.
+
 
         </para>
     </section> 	
@@ -160,7 +161,7 @@ int main ( int argc, char *argv[] )
 	delete [] image;
 }
 ]]></programlisting>
-
+<para>Fordításnál figyelnünk kell, hogy az -lpng kapcsolót is mellékeljük, máskülönben nem fog lefordulni a programunk!</para>
     </section> 	
         
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

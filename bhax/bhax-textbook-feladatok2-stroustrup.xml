@@ -14,14 +14,84 @@ osztályát (miután kicsomagoltuk az src.zip állományt, arra ráengedve)!
 
         </para>
         <para>
-            Megoldás videó:
-        </para>
-        <para>
             Megoldás forrása:                
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            A feladat megkezdése elott szükséges letöltenünk a C++ Boost könyvtárát az internetről. Ezt a Google-t
+használva egyszerűen megtehetjük. Letöltés és kitömörítés után a mappában található egy bootstrap.bat fájl
+(amennyiben Windows alatt dolgozunk, ezt használjuk; ellenkezo esetben a .sh fájlra lesz szükségünk). Ha
+megnyitjuk, elkezdi előkészíteni nekünk a teljes Boost könyvtárat, ami a folyamat végén a kezdeti ~500mb
+helyett már ~5gb-ot nyom.
         </para>
+        <para>
+            A továbbiakban Windows alatt dolgoztam, így a Visual Studio-t használtam a feladathoz. Ebben létre kell
+hoznunk egy új C++ projektet, majd includeolnunk kell a Boost könyvtárat. Ezt a projekt beállításainál, a
+C/C++, valaint a lib fájlok importálásához a Linker menünél tehetjük meg. Additional Libraryként betallózuk a boost/boost mappát, a Linkernél pedig a boost/stage/lib mappát. Ezt elég a Debug/x64 metódusra
+megcsinálni.
+        </para>
+        <para>Ha ezekkel megvagyunk, ki kell bontanunk az JDK src.zip állományát, amit a Java telepítési könyvtárában
+találunk meg. Ez a legtöbb esetben a C:\Program Files\Java mappa, azon belül pedig az aktuálisan letöltött
+JDK könyvtárat kell keresnünk. Most már minden kész, hogy megírjuk a programunkat és ráengedjük.
+</para>
+        <programlisting language='c++'><![CDATA[
+#include <iostream>
+#include <sstream>
+#include "boost\filesystem.hpp"
+#include "boost\algorithm\string.hpp"
+#include "boost\algorithm\string\predicate.hpp"
+using namespace std;
+using namespace boost;
+using namespace boost::filesystem;
+        ]]></programlisting>
+        <para>Eloször inculdeoljuk a libraryket, valamint deklaráljuk a namespaceket, hogy a későbbiekben könnyebben
+tudjuk alkalmazni a különböző függvényeket.</para>
+        <programlisting language='c++'><![CDATA[
+string repeat(int n, string what) {
+    ostringstream os;
+    for (int i = 0; i < n; i++)
+        os << what;
+    return os.str();
+}
+
+        ]]></programlisting>
+        <para>A repeat funkció segítségével egy stringet annyiszor tudunk visszaadni, amennyi számot megadunk az első
+paramétereként.</para>
+                <programlisting language='c++'><![CDATA[
+int main() {
+    string pa = "C:\\Program Files\\Java\\jdk1.8.0_221\\src";
+    path apk_path(pa);
+    long long count = 0;
+    recursive_directory_iterator end;
+    for (recursive_directory_iterator i(apk_path); i != end; i++) {
+      const path cp = ( * i);
+      string name = cp.string();
+      vector < string > strs;
+      split(strs, name, is_any_of("\\"));
+      string fName = strs[strs.size() - 1];
+      if (fName.compare("module-info.java") == -1 && fName.compare("package- ←-
+          info.java ") == -1) {
+          if (ends_with(fName, "java")) {
+            cout << " " << repeat(strs.size() - 7, "+") << " " << fName.substr← -
+              (0, fName.size() - 5) << endl;
+            count++;
+          } else {
+            cout << " | " << fName << " >" << endl;
+          }
+        }
+      }
+      cout << "JDK osztályok száma: " << count << endl;
+    }
+        ]]></programlisting>
+        <para>A mainen belül felvesszük a jdk osztályok elérési útját dupla \ jellel, mivel ha nem így teszünk, escape
+karakternek veszi a program. Behívjuk útvonalként, majd felveszünk egy változót az előforduló osztályok
+számának. Ez az adatvesztés elkerülése érdekében int helyett long long lesz. Rekurzívan bejárjuk a mappát, és minden olyan fájlt, ami nem module-info.java vagy package-info.java, de java kiterjesztésű, kiírunk
+a konzolra, valamint növeljük a számolónkat eggyel. Minél mélyebben van az adott osztály a mappaszerkezetben, annál több + jelet írunk ki elé. Ha a program új mappához ér, tudatja velünk a | mappanév &gt;
+kiírásával. A programo lefutásának a végén egy ilyen képet kapunk:</para>
+<mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/jdkcount.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
     </section>        
 
 
@@ -52,14 +122,122 @@ https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_3.pdf (71-73 
 készített titkos szövegen.
         </para>
         <para>
-            Megoldás videó:
-        </para>
-        <para>
             Megoldás forrása:                
         </para>
         <para>
-            Tanulságok, tapasztalatok, magyarázat...
+           Az RSA titkosítási eljárárs egy nyílt kulcsú algoritmus. Tartozik hozzá egy publikus és egy privát kulcs. A publikus kulcs mindenki számára elérhető, és ezzel lehet kódolni a nekünk
+           szánt adatokat, amelyet csak a privát kulccsal tudunk visszafejteni. Ez az eljárás napjaink legnébszerűbb titkosítási módszere. A feladatunk az, hogy olyan titkosítót írjunk, amely a
+           szöveget nem teljes egészében, hanem karakterenként kódolja. Ez által a visszafejtés lehetséges a betűk gyakkoriságának megfigyelésével, hiszen egy karaktert egy adott, másik karakterrel
+           helyettesít be az egész szövegben. Ehhez szükségünk van egy karaktergyakoriság táblázatra, amelyet kimondottan az adott szöveg dekódolására hozunk létre.
+           Ez megmutatja, melyik betű/karakter mennyiszer forudl elő a szövegben. Ez után karakterenként kódolnunk kell a szöveget:
         </para>
+    <programlisting language='java'><![CDATA[
+        int bitlength = 2100;
+		
+		SecureRandom random = new SecureRandom();
+		
+		BigInteger p = BigInteger.probablePrime(bitlength/2, random);
+		BigInteger q = BigInteger.probablePrime(bitlength/2, random);
+		
+		BigInteger publicKey = new BigInteger("65537");
+		BigInteger modulus = p.multiply(q);
+		
+		String str = "KODOLT SZOVEG";
+		System.out.println("Original: " + str);
+		
+		byte[] out = new byte[str.length()];
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if (c == ' ')
+				out[i] = (byte)c;
+			else
+				out[i] = new BigInteger(new byte[] {(byte)c}).modPow(publicKey, modulus).byteValue();
+		}
+		String encoded = new String(out);
+		System.out.println("Encrypted:" + encoded);
+		
+		Decode de = new Decode(encoded);
+		System.out.println("Decrypted: " + de.getDecoded());
+        ]]></programlisting>
+        <para>A titkosítandó szövegünk a KODOLT SZOVEG lesz. Azért csupa nagybetű, mert így nem kell foglalkozzunk a kisbetűk implementálásával a karaktergyakoriság-táblázatunkba. Ezzel
+        megkapjuk a titkosított szöveget, amelyet továbbadunk a visszafejtő osztályunknak, ahol feldolgozza a bemenetet és a táblázat segítségével visszafejti azt, több kevesebb sikerrel.</para>
+        <programlisting language='java'><![CDATA[
+class Decode {
+	private HashMap<Character, Integer> charRank;
+	private String decoded;
+	
+	public Decode(String str) {
+		this.charRank = new HashMap<Character, Integer>();
+		this.decoded = str;
+		
+		this.loadFreqList();
+		
+		HashMap<Character, Integer> frequency = new HashMap<Character, Integer>();
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			if (c != ' ')
+				if(frequency.containsKey(c))
+					frequency.put(c, frequency.get(c) + 1);
+				else
+					frequency.put(c, 1);
+		}
+		
+		while (frequency.size() > 0) {
+			int mi = 0;
+			char c = 0;
+			for (Entry<Character, Integer> e : frequency.entrySet()) {
+				if (mi < e.getValue()) {
+					mi = e.getValue();
+					c = e.getKey();
+				}
+			}
+			this.decoded = this.decoded.replace(c, this.nextFreq());
+			frequency.remove(c);
+		}
+	}
+	
+	private void loadFreqList() {
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader(new FileReader("letter.txt"));
+			String line;
+			while((line = reader.readLine()) != null) {
+				String[] args = line.split("\t");
+				char c = args[0].charAt(0);
+				int num = Integer.parseInt(args[1]);
+				this.charRank.put(c, num);
+			}
+		} catch (Exception e) {
+			System.out.println("Error when loading list -> " + e.getMessage());
+		}		
+	}
+	
+	private char nextFreq() {
+		char c = 0;
+		int nowFreq = 0;
+		for(Entry<Character, Integer> e : this.charRank.entrySet()) {
+			if (e.getValue() > nowFreq) {
+				nowFreq = e.getValue();
+				c = e.getKey();
+			}
+		}
+		if (this.charRank.containsKey(c))
+			this.charRank.remove(c);
+		return c;
+	}
+	
+	public String getDecoded() {
+		return this.decoded;
+	}
+}
+        ]]></programlisting>
+        <para>A Decode osztály tartalmaz minden olyan funkciót, amely szükséges lesz a továbbiakban. Itt található a loadFreqList funkció, amely betölti a karaktertáblázatunk. Ez egy tabulátorral
+        elválasztott, első oszlopban a betű, második oszlopban az előfrodulások száma kettőséből álló állomány. Ezeket meghívva a main függvényben, valami ilyesmi eredményt kapunk:</para>
+<mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/rsaout.png"  scale="100"/>
+                </imageobject>
+            </mediaobject>
     </section>        
 
 
@@ -88,13 +266,25 @@ hét/Perceptron osztály feladatot is.)
 		Az előző 4 feladat egyikéről írj egy 1 oldalas bemutató „”esszé szöveget!
         </para>
         <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
+            A JDK osztály feladatot Unix környezetben egyszerűbb megcsinálni. Ott a g++ package-t használva, bármi más include nélkül adhatjuk meg a szükséges libraryket, jelen esetben a Boost könyvtárat.
+            Ennek hátránya, hogy ha csak terminálos üzemmódban, tehát GUI nélkül dolgozunk, akkor GUI C++ programot nem készíthetünk. Ha ilyet szeretnénk, arra is kell figyelnünk, hogy DirectX
+            helyett OpenGL megjelenítést alkalmazzunk, hiszen a DirectX Windows "exkluzív". De jelen esetben ez nem probléma, hiszen konzolos applikációt készítettünk. 
+            A Windowsos verzióban nincs ilyen megkötésünk. Ha szeretnénk, készíthetünk neki külön applikációs felületet. Visual Studioban a különböző könyvtárok bárhol lehetnek a számítógépen,
+            hiszen hard linkkel kell beimportálnunk a projektbe, így nincs szükség arra, hogy pontosan az adott projektünk mappájába helyezzük el. Így például a Boost könyvtár közel 5 gb-os
+            mivoltával nem vagyunk rákötelezve arra, hogy az SSD-nk értékes helyét felhasználjuk. Bár ez erősen ajánlott, hiszen annál gyorsabban tudunk dolgozni. SSD-n tárolva a JDK src állományainak
+            beolvasása is sokkal gyorsabb, ám még így is kell neki egy jó 10mp, hiszen több mint 7000 fájlról beszélünk, és ezek csak azok az állományok, amelyre szükségünk van. Ezzel ellenttében
+            az RSA kódoló sebessége az adott futtató géptől, valamint a szöveg hosszától és összetettségétől függ. Míg a JDK állományai a legtöbb esetben fixek, maximum az adott verzió plusz 
+            könyvtáraival tudnak többet más testvéreitől, ez kizárólag a háttértároló sebességétől függ. Kódolásnál a processzor dolgozik, ezért egy hosszabb szöveg képes leterhelni egy gyengébb
+            gépet. Ez a mai modernebb processzoroknak már nem jelent különösebb problémát. Mivel ebben a programban is fix a bevitt szöveg, így a futási idő is fix lesz minden esetben. A karaktertáblának
+            hála még gyorsabban megy a dekódolás. Alap esetben csak a kódoláshoz kell nagy erőforrás, a dekódoláshoz már kevésbé, hiszen a privát kulcs segítségével pontosan lehet tudni, hogy mit mire kell
+            kicserélni. Rengeteg helyen használják ezt a kódolási módszert a kiváló hatékonysága miatt. Többek között a Google ReCaptcha szolgáltatása is ezzel működik. Alap esetben az RSA kódolás egy
+            függvény segítségével generálódik, ahol a szöveget, mint egészet vesznek számításba, ellentétben ezzel, ahol karakterenkét történik a kódolás. A kulcs generálás a két nagy, véletlenszerű prímszám
+            szorzatának (N) az Euler-féle fi értéke alapján történik. Ez jellemző mind a publikus, mind a privát kulcsra egyaránt. A privát és a publikus kulcs hossza különböző lesz. N-re kiszámolva a fi függvényt,
+            keresnünk kell egy olyan számot (e), amely nagyobb mint egy, de kisebb, mint a fi(N) eredménye, valamint fi(N) és e legnagyobb közös osztólya 1. Így az e lesz a nyilvános kulcs kitevője. A privát kulcs
+            kitevője (d) viszont d és e szorzatának a fi(N) kongruenciájával számítjuk ki 1-re.  Ezt titokban kell tartanunk, mivel ha kikerülne, akkor vissza lehetne fejteni a titkosításunkat. Így a nyilvános
+            kulcs az N modulusából számított e számú kitevőből áll, a tikos kulcs pedig N modoulsából számított d számú kitevőből, amelyből a d nem publikus. A publikus kulcsunkat bárkniek odaadva számunkra 
+            dekódolható üzenetet küldhet, amelyet csak és kizárólag mi tudunk visszafejteni a titkos kulcsunkkal. Feltörése nem lehetetlen, ám olyan szintű számításokat és erőforrásokat igényel, amely nem feltétlen
+            éri meg a befektetett időt. 
         </para>
     </section>        
    
