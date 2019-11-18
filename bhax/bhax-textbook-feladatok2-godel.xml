@@ -5,41 +5,6 @@
             <keyword/>
         </keywordset>
     </info>
-
-    <section>
-        <title>Gengszterek</title>
-        <para>
-		Gengszterek rendezése lambdával a Robotautó Világbajnokságban
-https://youtu.be/DL6iQwPx1Yw (8:05-től)
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-    <section>
-        <title>C++11 Custom Allocator</title>
-        <para>
-		https://prezi.com/jvvbytkwgsxj/high-level-programming-languages-2-c11-allocators/ a
-CustomAlloc-os példa, lásd C forrást az UDPROG repóban!
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>      
 	    <section>
         <title>STL map érték szerinti rendezése</title>
         <para>
@@ -137,21 +102,6 @@ class Csapat implements Comparable<Csapat> {
 }
 ]]></programlisting>
     </section>          
-	<section>
-        <title>Prolog családfa</title>
-        <para>
-		Ágyazd be a Prolog családfa programot C++ vagy Java programba! Lásd para_prog_guide.pdf!
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>      
 	        <section>
         <title>Gimp Scheme hack</title>
         <para>

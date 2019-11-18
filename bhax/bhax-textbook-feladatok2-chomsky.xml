@@ -26,24 +26,6 @@ https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/adatok.html
 
         </para>
     </section>        
-
-     <section>
-        <title>OOCWC lexer</title>
-        <para>
-		Izzítsuk be az OOCWC-t és vázoljuk a https://github.com/nbatfai/robocaremulator/blob/master/justine/rcemu/src/carlexer.ll lexert és kapcsolását a programunk OO
-struktúrájába!
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section> 
     	<section>
         <title>Fullscreen</title>
         <para>
@@ -72,51 +54,6 @@ Tipp: https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#l
 
         </para>
     </section> 	
-	<section>
-        <title>Paszigráfia Rapszódia OpenGL full screen vizualizáció</title>
-        <para>
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section> 	
-	<section>
-        <title>Paszigráfia Rapszódia OpenGL full screen vizualizáció</title>
-        <para>
-		Lásd vis_prel_para.pdf! Apró módosításokat eszközölj benne, pl. színvilág, textúrázás, a szintek jobb
-elkülönítése, kézreállóbb irányítás.
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section> 
-	<section>
-        <title>Paszigráfia Rapszódia LuaLaTeX vizualizáció</title>
-        <para>
-Lásd vis_prel_para.pdf! Apró módosításokat eszközölj benne, pl. színvilág, még erősebb 3D-s hatás.
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section> 
 	<section>
         <title>Perceptron osztály</title>
         <para>

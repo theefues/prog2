@@ -5,24 +5,6 @@
             <keyword/>
         </keywordset>
     </info>
-
-    <section>
-        <title>FUTURE tevékenység editor</title>
-        <para>
-		Javítsunk valamit a ActivityEditor.java JavaFX programon!
-https://github.com/nbatfai/future/tree/master/cs/F6
-Itt láthatjuk működésben az alapot: https://www.twitch.tv/videos/222879467
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
     <section>
         <title>OOCWC Boost ASIO hálózatkezelése</title>
         <para>
@@ -219,25 +201,6 @@ kivágjuk a potenciális arcot, és berakjuk egy új képbe. Ezt minden képkock
 }
 ]]></programlisting>
     <para>Ez azt jelenti, hogyha meghívjuk például a heroesChanged függvényt, akkor helyette az updateHeroes hívódjon meg.</para>
-    </section> 
-	    <section>
-        <title>OSM térképre rajzolása</title>
-        <para>
-		Debrecen térképre dobjunk rá cuccokat, ennek mintájára, ahol én az országba helyeztem el a DEAC
-hekkereket: https://www.twitch.tv/videos/182262537 (de az OOCWC Java Swinges
-megjelenítőjéből: https://github.com/nbatfai/robocar-emulator/tree/master/justine/rcwin is
-kiindulhatsz, mondjuk az komplexebb, mert ott időfejlődés is van...)
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
     </section> 
         
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

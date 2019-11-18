@@ -194,21 +194,5 @@ https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf (34-47 
         Ez után újra próbálkozhat a belépéssel. Ez addig fog ismétlődni, amíg végül nem a megfelelő adatokat adja meg.
         </para>
     </section> 
-            <section>
-        <title>TeX UML</title>
-        <para>
-		Valamilyen TeX-es csomag felhasználásával készíts szép diagramokat az OOCWC projektről (pl.
-use case és class diagramokat).
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section> 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 </chapter>                

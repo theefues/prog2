@@ -1,6 +1,6 @@
 <chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
     <info>
-        <title>Helló, Schwarzenegger!</title>
+        <title>Helló, Lauda!</title>
         <keywordset>
             <keyword/>
         </keywordset>
@@ -14,16 +14,26 @@ https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#id52728
 
         </para>
         <para>
-            Megoldás videó:
+            A kivételkezelés a programokban egy nagyon hasznos dolog, amivel a felhasználó tudtára adhatjuk, hogy a feladat elvégzéséhez szükséges feltételek közül melyik nem áll rendelkezésre. Ezek közül lehet a legegyszerűbb, például egy fájlműveletnél, amikor
+            a fájl, amivel dolgozni akarunk, nem létezik. Vagy a bonyolultabba közül, amikor az erőforrások (például ram) elfogynak, ezt is tudathatjuk a felhasználóval. Ehhez egy úgynevezett try-catch blokkot kell alkalmaznunk. Ha a try blokkban szereplő kódban bárhol
+            runtime error keletkezik, a program további része nem fut le, hanem egyből a catch blokkhoz ugrik, ahol feldolgozhatjuk a kivételt. Erre is rengeteg módszer létezik. Ha a kódunkban csak egy bizonyos hiba lehet (mint amilyen ebben is), akkor elég kiírnunk
+            egyfajta hibaüzenetet. A portszkennelős kódunk megpróbál TCP sockettel kapcsolódni az adott portra. Ha sikerül neki, az azt jelenti, hogy meg van nyitva egy folyamat számára. Ha nem, akkor nincs. Ezt minden esetben tudatjuk a felhasználóval. 1024 TCP porton
+            végigmegyünk egy for ciklussal, és végigpróbáljuk őket.
         </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
+                        <programlisting language='java'><![CDATA[
+public class KapuSzkenner {
+    public static void main(String[] args) {
+        for(int i=0; i<1024; ++i)
+            try {
+                java.net.Socket socket = new java.net.Socket(args[0], i);
+                System.out.println(i + " figyeli");
+                socket.close();
+            } catch (Exception e) {
+                System.out.println(i + " nem figyeli");
+            }
+    }
+}]]></programlisting>
     </section>        
-
    <section>
         <title>AOP</title>
         <para>
@@ -31,29 +41,25 @@ https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#id52728
 feladat volt korábban.)
         </para>
         <para>
-            Megoldás videó:
+            Az Aspektus Orientált Programozás egy olyan folyamat, amellyel megkönnyíthető a kód olvashatósága, jobban átláthatjuk a programunk működését. Nincs szükségünk a kódunkba beleírni fölöslegesnek vélt kódsorokat, hanem azt egy külön fájlba
+            megírjuk, majd egy Complier segítségével üsszefűzzük a fő java állománunkkal, így futtatás után külön látjuk az AOP logot és a progam logját is. Nekünk a BinFa Java átiratába kell belefűznünk egy AOP scriptet. Ez annyit fog csinálni, hogy megnézi, mikor hívjuk meg
+            a kiír függvényt. Meghívás előtt kiírja, hogy meghívjuk, meghívás után pedig kiírja, hogy meghívtuk (ez a before-after), valamint hogy eddig hányszor hívtuk meg, erre felveszünk 2 int változót, aminek az értékét mindig növeljük. Ha hiba keletkezik közben, arról is tudni fogunk.
+        (megj: képek később)
         </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-	<section>
-        <title>Android Játék</title>
-        <para>
-		Írjunk egy egyszerű Androidos „játékot”! Építkezzünk például a 2. hét „Helló, Android!” feladatára!
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
+                                <programlisting language='java'><![CDATA[
+public aspect kiirMeghiv {
+	public pointcut fgv(): call(public void LZWBinFa.Csomopont.kiir());
+	int bef = 0;
+	int aft = 0;
+	before(): fgv() {
+		bef++;
+		System.out.println("kiir indul");
+	}
+	after(): fgv() {
+		aft++;
+		System.out.println("kiir lefutott");
+	}
+}]]></programlisting>
     </section>        
 	<section>
         <title>Junit teszt</title>
@@ -64,34 +70,39 @@ volt korábban).
 
         </para>
         <para>
-            Megoldás videó:
+            A JUnit egy tesztelő framework, amit Java környezetben használnak különböző kódok tesztelésére, hogy azt az eredményt adja-e, amit várunk. Nekünk ezt bele kell szőni a binfa védési programba és össze kell hasonlítani
+            már előre kiszámolt értékekkel. A @Test értékkel adhatjuk meg azokat a helyeket a kódban, ahol szeretnénk tesztelni. Létrehozunk 3 függvényt, egy az átlagot, egy a szórást, egy pedig a mélységet számolja. 
+            Meghívjuk az LZWBinFa osztályt, aztán felvesszük egy változóban a 01111001001001000111 értéket, majd ezzel dolgozunk. Végigmegyünk minden karakterén, utána visszaadjuk a fának azt, és kiszámoljuk az adott értéket a binfa osztály
+            megfelelő függvényének meghívásával. Ez a getAtlag, a getSzoras és a getMelyseg. Ha ez megvan, összehasonlítjuk az előre megadott értéket a kapott értékkel. Ha megegyeznek, a teszt helyes volt. Ha nem, akkor hibát kapunk.(megj: képek később)
         </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
+                                <programlisting language='java'><![CDATA[
+LZWBinFA binfa = new LZWBinFa();
+String value = "01111001001001000111";
+
+@Test
+public void atlagTest(){
+    for(int i = 0; i < value.length(); i++)
+        binfa.push_back(str.charAt(i));
+    
+    double atlag = binfa.getAtlag();
+    assertEquals(2.75, atlag, 0.001);
+}
+@Test
+public void szorasTest(){
+    for(int i = 0; i < value.length(); i++)
+        binfa.push_back(str.charAt(i));
+    
+    double szoras = binfa.getSzoras();
+    assertEquals(0.9574271077563381, szoras, 0.001);
+}
+@Test
+public void melysegTest(){
+    for(int i = 0; i < value.length(); i++)
+        binfa.push_back(str.charAt(i));
+    
+    double melyseg = binfa.getMelyseg();
+    assertEquals(1040, melyseg, 0.001);
+}
+]]></programlisting>
     </section>        
-	<section>
-        <title>OSCI</title>
-        <para>
-		Készíts egyszerű C++/OpenGL-es megjelenítőt, amiben egy kocsit irányítasz az úton. A kocsi
-állapotát minden pillanatban mentsd le. Ezeket add át egy Prolog programnak, ami egyszerű reflex
-ágensként adjon vezérlést a kocsinak, hasonlítsd össze a kézi és a Prolog-os vezérlést. Módosítsd
-úgy a programodat, hogy ne csak kézzel lehessen vezérelni a kocsit, hanem a Prolog reflex ágens
-vezérelje!
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-        
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 </chapter>                
