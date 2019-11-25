@@ -6,42 +6,68 @@
         </keywordset>
     </info>
 
-    <section>
-        <title>MNIST</title>
+<section>
+    <title>MNIST</title>
         <para>
 		Az alap feladat megoldása, +saját kézzel rajzolt képet is ismerjen fel,
 https://progpater.blog.hu/2016/11/13/hello_samu_a_tensorflow-bol Háttérként ezt vetítsük le:
 https://prezi.com/0u8ncvvoabcr/no-programming-programming/
         </para>
         <para>
-            Megoldás videó:
+            A program futtatásához szükségünk lesz számtalan könyvátrra, de ezek közül a legfontosabb a tensorflow. Ezt a pip install tensorflow segítségével letölthetjük. Ha ezzel megvagyunk,
+            Linux alatt gond nélkül el kellene indulnia. Az MNIST program lényege, hogy rajzolt számokat ismerjen fel a lehető legnagyobb pontossággal. Mivel itt is neurális hálóra építünk, a
+            tanítás elengedhetetlen. Minél többször futtatjuk a programot, annál nagyobb eséllyel fogja felismerni a számokat. A példatárból kivett 28x28-as képek legtöbbjét gond nélkül felismerte,
+            a saját rajzolt számok felismerésével már gondja akadt, de pár próbálkozás után az is ment neki. A program minden felismerés előtt 1000 iterációt végez el, ezt százalékos alakban tudatja
+            a felhasználóval, hol tart a folyamat. Ez a tanulási folyamat.
         </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
+        <programlisting language="python">
+<![CDATA[
+ for i in range(1000):
+    batch_xs, batch_ys = mnist.train.next_batch(100)
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+    if i % 100 == 0:
+      print(i/10, "%")
+]]>
+</programlisting>
+<para>Ez után következik a tanultak tesztelése, ahol megnézi a helyesen eltalált értékek számát, ebből pedig kiszámítja a pontosságot. Ez az iterációk számának növelésével egyenesen arányosan nő.</para>
+        <programlisting language="python">
+<![CDATA[
+correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
+  accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32)) 
+]]>
+</programlisting>
+<para>Ha megvagyunk a felkészüléssel, rátérhetünk a lényegre: a képfelismerésre.</para>
+        <programlisting language="python">
+<![CDATA[
+ img = mnist.test.images[42]
+  image = img
 
-   <section>
-        <title>Deep MNIST</title>
-        <para>
-		Mint az előző, de a mély változattal. Segítő ábra, vesd össze a forráskóddal a
-https://arato.inf.unideb.hu/batfai.norbert/NEMESPOR/DE/denbatfai2.pdf 8. fóliáját!
+  matplotlib.pyplot.imshow(image.reshape(28, 28), cmap=matplotlib.pyplot.cm.binary)
+  matplotlib.pyplot.savefig("4.png")  
+  matplotlib.pyplot.show()
 
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
+  classification = sess.run(tf.argmax(y, 1), feed_dict={x: [image]})
 
+  print("-- Ezt a halozat ennek ismeri fel: ", classification[0])
+]]>
+</programlisting>
+<para>Itt az mnist könyvtár 42. elemét ismertetjük fel vele. Majd ez után ráengedjük a saját képünkre a fentebbi kódot kicsit átírva:</para>
+        <programlisting language="python">
+<![CDATA[
+ img = readimg()
+  image = img.eval()
+  image = image.reshape(28*28)
+
+  matplotlib.pyplot.imshow(image.reshape(28, 28), cmap=matplotlib.pyplot.cm.binary)
+  matplotlib.pyplot.savefig("8.png")  
+  matplotlib.pyplot.show()
+
+  classification = sess.run(tf.argmax(y, 1), feed_dict={x: [image]})
+
+  print("-- Ezt a halozat ennek ismeri fel: ", classification[0])
+]]>
+</programlisting>
+</section>        
 <section>
         <title>CIFAR-10</title>
         <para>
@@ -50,69 +76,68 @@ https://progpater.blog.hu/2016/12/10/hello_samu_a_cifar-10_tf_tutorial_peldabol
 
         </para>
         <para>
-            Megoldás videó:
+            A feladatunk az volt, hogy megtanítsuk a CIFAR programnak, hogy ismerjen fel saját képet. A program a tensorflow neurális háló alapján dolgozik, és a bemeneti képet
+            megpróbálja felismerni. Mivel ezt a neurális hálót tanítani kell, hogy minél pontosabban, minél több képet felismerjen. A bemenet 32x32 méretű kép. Minél többször futtatjuk
+            a programot, az algoritmus annál okosabb lesz, és rengeteg próbálkozás után (tényleg nagyon sok, egy kép feldolgozása nagyjából 3 percet vesz igénybe, és ezt kell megcsinálni 
+            több százszor) végül sikeresen felismerheti az objektumot. A bemeneti képem egy kutya volt, amit először traktornak, majd repülőnek, végül pedig macskának ismert fel az algoritmus.
         </para>
         <para>
-            Megoldás forrása:                
+            Ahhoz, hogy a képet fel tudja dolgozni a program, először át kell alakítanunk bináris fájllá. Ehhez számtalan programot használhatunk, én a blogon linkeltet használtam.
+            Ha ezzel megvagyunk, át kell írnunk a programunkat, hogy saját állományunkat olvassa be.
         </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
+        <programlisting language="python">
+<![CDATA[
+from PIL import Image
+import numpy as np
+
+im = Image.open('images.jpeg')
+im = (np.array(im))
+
+r = im[:,:,0].flatten()
+g = im[:,:,1].flatten()
+b = im[:,:,2].flatten()
+label = [1]
+
+out = np.array(list(label) + list(r) + list(g) + list(b),np.uint8)
+out.tofile("out.bin")
+]]>
+</programlisting>
+        <para>    
+            Ehhez átírjuk a bemeneti értéket a saját bin fájlunkra. A program futtatásához telepítenünk kell a szükséges könyvtárakat. Ezt a pip paranccsal megtehetjük. Szükségünk lesz a keras, matplotlib, pillow valamint a tensorflow
+            könyvátrakra. Ha ezeket sikeresen beszereztük, nincs más dolgunk, mint futtatni a programot. Ez után kapunk egy körülbelüli számlálót. Ha több iterációval próbálkozunk, akkor többet is kapunk, hiszen a program annyiszor
+            fut le, amennyi az iterációs határ. Jelenleg szemléltetésképp egyet adtam meg. Az algoritmus kiválaszt egy előre megadott osztálytömbből egy elemet, amihez hozzárendeli a képet.
+            A program azt mondta a kutyás képemre, hogy ez egy macska, amihez egy képet is mellékelt. Elképesztő technológia.
+                    <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/cifar.png"  scale="40"/>
+                </imageobject>
+            </mediaobject>
         </para>
+
     </section>        
 
 <section>
         <title>Android telefonra a TF objektum detektálója</title>
         <para>
-		Telepítsük fel, próbáljuk ki!
-
+		    Telepítsük fel, próbáljuk ki!
         </para>
         <para>
-            Megoldás videó:
+            A TensorFlow egy nyílt forráskódu machine learning platform, amely neurális hálók segítségével képes AI műveletekre, mint például az objektumfelismerés, amivel a feladatban foglalkozunk. Egy android telefon segítségével könnyen letölthetjük a programot, és meg is kezdődhet
+            a képfelismerés. A telefon kamera képét dolgozza fel valós időben, és a rajta található dolgokat (több, de inkább kevesebb sikerrel) felismeri. Rajzol köré egy négyzetet, majd kiírja alulra, hogy szerinte mi látható a képen. Az emberi alakokat többnyire sikerrel felismeri, 
+            és az olyan általános használati tárgyakkal, mint a telefon vagy egy pohár sem okoznak neki különösebb gondot. Sőt, olyannyira tetszik neki a telefon, mint objektum, hogy a téglalap alakú tárgyakra előszeretettel hivatkozik úgy, mint egy mobilra. Az életemet semmiképp
+            nem bíznám rá, de el lehet vele szórakozni. Nyilván vannak sokkal komolyabb képfelismerő neurális hálók is. Ezt a fajta objektumdetektort leginkább közlekedési táblák felismerésére lehetne használni, ha egyszer elérnek odáig az önvezető autók, mivel a KRESZ táblák fixek,
+            mindegyiknek megvan a maga jelentése, így a felismerés is jóval egyszerűbb, mert leszűkíti a kört.
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/tensorflow.png"  scale="70"/>
+                </imageobject>
+            </mediaobject>
+            Mivel a machine learning elég gyerekcipőben jár még (ami az open-source részeket érinti), elég vicces felismerések is születnek a program használata közben:
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/tensorflowwtf.png"  scale="60"/>
+                </imageobject>
+            </mediaobject>
         </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-
-<section>
-        <title>SMNIST for Machines</title>
-        <para>
-		Készíts saját modellt, vagy használj meglévőt, lásd: https://arxiv.org/abs/1906.12213
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-
-<section>
-        <title>Minecraft MALMO-s példa</title>
-        <para>
-		A https://github.com/Microsoft/malmo felhasználásával egy ágens példa, lásd pl.:
-https://youtu.be/bAPSu3Rndi8, https://bhaxor.blog.hu/2018/11/29/eddig_csaltunk_de_innentol_mi,
-https://bhaxor.blog.hu/2018/10/28/minecraft_steve_szemuvege
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-
-        
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+    </section>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 </chapter>                

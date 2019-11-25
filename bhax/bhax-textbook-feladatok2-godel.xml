@@ -77,7 +77,7 @@ Interface Comparable T szerepét!
                     <imagedata fileref="img/tabellarendezett.png"  scale="100"/>
                 </imageobject>
         </mediaobject>
-        Ez a rendezés az AlternativTabella Csapat osztályán belül történik meg, ahol a Comparable compareTo függvényével hasonlítja össze a két csapat értékét, és visszaad egy -1, 0 vagy 1 értéket annak függvényében, hogy az adott csapatpáros milyen eredménnyel zárt.
+        Ez a rendezés az AlternativTabella Csapat osztályán belül történik meg, ahol a JDK Comparable compareTo függvényével hasonlítja össze a két csapat értékét, és visszaad egy -1, 0 vagy 1 értéket annak függvényében, hogy az adott csapatpáros milyen eredménnyel zárt.
         </para>
                 <programlisting language='java'><![CDATA[
 class Csapat implements Comparable<Csapat> {

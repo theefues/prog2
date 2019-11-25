@@ -62,7 +62,7 @@ https://github.com/nbatfai/SamuCam
         a SamuLife.pro fájlt, ami a Qt/5.5/gcc_64/bin mappán belül van. Ha a qmake sikerült, le kell makelnünk az így kapott fájlokat. Ez után készen vagyunk a program fordításával. 
         Nincs más dolgunk, mint futtatni a ./SamuCamp paranccsal. Ha IP kamerát szeretnénk hozzáadni, mint bemeneti eszköz, az az --ip kapcsolóval és a kamera linkjével megtehetjük. Amennyiben nincs megosztva az interneten, úgy a lokális
         ip-t használva el tudjuk érni.</para>
-        <para>Ha mégsem sikerülne (ahogy nekem sem sikerült, mivel nincs grafikus felületű linuxom), akkor sincs baj, mivel a feladatunk nem ez volt. Be kell mutatnunk, hogyan kezeli a program a webkamerákat. 
+        <para>Ha mégsem sikerülne, akkor sincs baj, mivel a feladatunk nem ez volt. Be kell mutatnunk, hogyan kezeli a program a webkamerákat. 
         Ezt meglepő módon a SamuCam.cpp-ben találjuk, azon belül is a videostreamnél rögtön az elején, amit az OpenCV biztosít számunkra.</para>
                 <programlisting language='c++'><![CDATA[
 SamuCam::SamuCam ( std::string videoStream, int width = 176, int height = 144 )
@@ -165,7 +165,12 @@ void SamuCam::run()
 ]]></programlisting>
 <para>Az imént letöltött xml-ünk hála képesek vagyunk megkérni az OpenCV-t arra, hogy emberi arcokat ismerjen fel. Kezeljük a kivételeket, mielőtt elkezdjük a műveletet, így amíg nincs bemeneti stream (tehát a webcamerát nem "csaltuk" be a programba) vagy netán
 hiányzik az arcfelismerő xml, a programunk nem fog elindulni. Ha ezzel megvagyunk, a másodpercenkénti 10 képet feldolgozzuk mindaddig, amíg a stream meg nem szakad. Ehhez a kapott, színes képet szürkébe konvertáljuk, így könnyebb a gépnek dolgoznia vele. A különböző framekből
-kivágjuk a potenciális arcot, és berakjuk egy új képbe. Ezt minden képkockán elvégezzük, így ha kimegyünk a képből vagy mozgunk, akkor is tudni fogja, hogy merre van az arcunk.</para>
+kivágjuk a potenciális arcot, és berakjuk egy új képbe. Ezt minden képkockán elvégezzük, így ha kimegyünk a képből vagy mozgunk, akkor is tudni fogja, hogy merre van az arcunk.
+<mediaobject>
+                <imageobject>
+                    <imagedata fileref="img/samu.png" scale="20"/>
+                </imageobject>
+            </mediaobject></para>
     </section> 
 	    <section>
         <title>BrainB</title>

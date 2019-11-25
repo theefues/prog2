@@ -44,7 +44,6 @@ feladat volt korábban.)
             Az Aspektus Orientált Programozás egy olyan folyamat, amellyel megkönnyíthető a kód olvashatósága, jobban átláthatjuk a programunk működését. Nincs szükségünk a kódunkba beleírni fölöslegesnek vélt kódsorokat, hanem azt egy külön fájlba
             megírjuk, majd egy Complier segítségével üsszefűzzük a fő java állománunkkal, így futtatás után külön látjuk az AOP logot és a progam logját is. Nekünk a BinFa Java átiratába kell belefűznünk egy AOP scriptet. Ez annyit fog csinálni, hogy megnézi, mikor hívjuk meg
             a kiír függvényt. Meghívás előtt kiírja, hogy meghívjuk, meghívás után pedig kiírja, hogy meghívtuk (ez a before-after), valamint hogy eddig hányszor hívtuk meg, erre felveszünk 2 int változót, aminek az értékét mindig növeljük. Ha hiba keletkezik közben, arról is tudni fogunk.
-        (megj: képek később)
         </para>
                                 <programlisting language='java'><![CDATA[
 public aspect kiirMeghiv {
@@ -73,7 +72,7 @@ volt korábban).
             A JUnit egy tesztelő framework, amit Java környezetben használnak különböző kódok tesztelésére, hogy azt az eredményt adja-e, amit várunk. Nekünk ezt bele kell szőni a binfa védési programba és össze kell hasonlítani
             már előre kiszámolt értékekkel. A @Test értékkel adhatjuk meg azokat a helyeket a kódban, ahol szeretnénk tesztelni. Létrehozunk 3 függvényt, egy az átlagot, egy a szórást, egy pedig a mélységet számolja. 
             Meghívjuk az LZWBinFa osztályt, aztán felvesszük egy változóban a 01111001001001000111 értéket, majd ezzel dolgozunk. Végigmegyünk minden karakterén, utána visszaadjuk a fának azt, és kiszámoljuk az adott értéket a binfa osztály
-            megfelelő függvényének meghívásával. Ez a getAtlag, a getSzoras és a getMelyseg. Ha ez megvan, összehasonlítjuk az előre megadott értéket a kapott értékkel. Ha megegyeznek, a teszt helyes volt. Ha nem, akkor hibát kapunk.(megj: képek később)
+            megfelelő függvényének meghívásával. Ez a getAtlag, a getSzoras és a getMelyseg. Ha ez megvan, összehasonlítjuk az előre megadott értéket a kapott értékkel. Ha megegyeznek, a teszt helyes volt. Ha nem, akkor hibát kapunk.
         </para>
                                 <programlisting language='java'><![CDATA[
 LZWBinFA binfa = new LZWBinFa();

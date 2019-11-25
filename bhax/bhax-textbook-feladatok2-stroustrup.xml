@@ -94,26 +94,6 @@ kiírásával. A programo lefutásának a végén egy ilyen képet kapunk:</para
             </mediaobject>
     </section>        
 
-
-    <section>
-        <title>Másoló-mozgató szemantika</title>
-        <para>
-		Kódcsipeteken (copy és move ctor és assign) keresztül vesd össze a C++11 másoló és a mozgató
-szemantikáját, a mozgató konstruktort alapozd a mozgató értékadásra!
-
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-
-
     <section>
         <title>Hibásan implementált RSA törése</title>
         <para>
@@ -239,26 +219,6 @@ class Decode {
                 </imageobject>
             </mediaobject>
     </section>        
-
-
-    <section>
-        <title>Változó argumentumszámú ctor</title>
-        <para>
-		Készítsünk olyan példát, amely egy képet tesz az alábbi projekt Perceptron osztályának bemenetére
-és a Perceptron ne egy értéket, hanem egy ugyanakkora méretű „képet” adjon vissza. (Lásd még a 4
-hét/Perceptron osztály feladatot is.)
-        </para>
-        <para>
-            Megoldás videó:
-        </para>
-        <para>
-            Megoldás forrása:                
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>        
-
 
     <section>
         <title>Összefoglaló</title>

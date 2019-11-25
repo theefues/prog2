@@ -170,5 +170,36 @@
             Tizenhatodik fejezet kész.
         </revremark>
     </revision>
-    
+        <revision>
+        <revnumber>1.1.8</revnumber>
+        <date>2019-11-11</date>
+        <authorinitials>theefues</authorinitials>
+        <revremark>
+            Tizenhetedik fejezet kész.
+        </revremark>
+    </revision>
+    <revision>
+        <revnumber>1.1.9</revnumber>
+        <date>2019-11-18</date>
+        <authorinitials>theefues</authorinitials>
+        <revremark>
+            Tizennyolcadik fejezet kész.
+        </revremark>
+    </revision>
+        <revision>
+        <revnumber>1.1.9</revnumber>
+        <date>2019-11-25</date>
+        <authorinitials>theefues</authorinitials>
+        <revremark>
+            Tizenkilencedik fejezet kész.
+        </revremark>
+    </revision>
+    <revision>
+        <revnumber>2.0</revnumber>
+        <date>2019-11-25</date>
+        <authorinitials>theefues</authorinitials>
+        <revremark>
+            Második teljes kiadás
+        </revremark>
+    </revision>
 </revhistory>
