@@ -33,6 +33,7 @@ public class KapuSzkenner {
             }
     }
 }]]></programlisting>
+    <para>A kivételkezelés szerepe, hogy a felhasználó tudtára adjuk, ha valami nem megfelelően működik a programban, segítve ezzel akár a debugolást, akár a hibaüzenetek rendszerezését. Jelen esetben a hibaüzenetünk a nem scannelhető port hibája lesz.</para>
     </section>        
    <section>
         <title>AOP</title>
@@ -59,6 +60,7 @@ public aspect kiirMeghiv {
 		System.out.println("kiir lefutott");
 	}
 }]]></programlisting>
+<para>Meg kell találnunk a join pointokat a kódban, ahol a pointcutot végrehajtjuk. Ezekre sok megoldás létezik. A végrehajtás before és az after értékekkel valósul meg.</para>
     </section>        
 	<section>
         <title>Junit teszt</title>

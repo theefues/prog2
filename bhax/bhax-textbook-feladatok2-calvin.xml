@@ -15,7 +15,8 @@ https://prezi.com/0u8ncvvoabcr/no-programming-programming/
         </para>
         <para>
             A program futtatásához szükségünk lesz számtalan könyvátrra, de ezek közül a legfontosabb a tensorflow. Ezt a pip install tensorflow segítségével letölthetjük. Ha ezzel megvagyunk,
-            Linux alatt gond nélkül el kellene indulnia. Az MNIST program lényege, hogy rajzolt számokat ismerjen fel a lehető legnagyobb pontossággal. Mivel itt is neurális hálóra építünk, a
+            Linux alatt gond nélkül el kellene indulnia. Az MNIST program lényege, hogy rajzolt számokat ismerjen fel a lehető legnagyobb pontossággal. Az MNIST könyvtárában számos, alacsony felbontású rajzolt szám található, a könnyebb hozzáférés
+            és munka érdekében. Az adatbázis minden eleme hasonló paraméterekkel rendelkezik, így egyszerű rá keretet írni. 20x20-as képfájlokkal dolgozunk, amelyekben a rajzok középre igazítva helyezkednek el. Mivel itt is neurális hálóra építünk, a
             tanítás elengedhetetlen. Minél többször futtatjuk a programot, annál nagyobb eséllyel fogja felismerni a számokat. A példatárból kivett 28x28-as képek legtöbbjét gond nélkül felismerte,
             a saját rajzolt számok felismerésével már gondja akadt, de pár próbálkozás után az is ment neki. A program minden felismerés előtt 1000 iterációt végez el, ezt százalékos alakban tudatja
             a felhasználóval, hol tart a folyamat. Ez a tanulási folyamat.

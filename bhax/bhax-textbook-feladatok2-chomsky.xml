@@ -47,6 +47,70 @@ Tipp: https://www.tankonyvtar.hu/en/tartalom/tkt/javat-tanitok-javat/ch03.html#l
                 <imagedata fileref="img/labirintus.png" scale="40" />
             </imageobject>
         </mediaobject>
+        </para>
+                <programlisting language='java'><![CDATA[
+ public void teljesKépernyősMód(java.awt.GraphicsDevice graphicsDevice) {
+        
+        int szélesség = 0;
+        int magasság = 0;
+        // Nincs ablak fejléc, keret.
+        setUndecorated(true);
+        // Mi magunk fogunk rajzolni.
+        setIgnoreRepaint(true);
+        // Nincs átméretezés
+        setResizable(false);
+        // Át tudunk kapcsolni fullscreenbe?
+        boolean fullScreenTamogatott = graphicsDevice.isFullScreenSupported();
+        // Ha tudunk, akkor Full-Screen exkluzív módba váltunk
+        if(fullScreenTamogatott) {
+            graphicsDevice.setFullScreenWindow(this);
+            // az aktuális képernyő jellemzök (szélesség, magasság, színmélység,
+            // frissítési frekvencia) becsomagolt elkérése
+            java.awt.DisplayMode displayMode
+                    = graphicsDevice.getDisplayMode();
+            // és kiíratása
+            szélesség = displayMode.getWidth();
+            magasság = displayMode.getHeight();
+            int színMélység = displayMode.getBitDepth();
+            int frissítésiFrekvencia = displayMode.getRefreshRate();
+            System.out.println(szélesség
+                    + "x"  + magasság
+                    + ", " + színMélység
+                    + ", " + frissítésiFrekvencia);
+            // A lehetséges képernyő beállítások elkérése
+            java.awt.DisplayMode[] displayModes
+                    = graphicsDevice.getDisplayModes();
+            // Megnézzük, hogy támogatja-e az 1024x768-at, mert a
+            // példa játékunkhoz ehhez a felbontáshoz készítettük a képeket
+            boolean dm1024x768 = false;
+            for(int i=0; i<displayModes.length; ++i) {
+                if(displayModes[i].getWidth() == 1024
+                        && displayModes[i].getHeight() == 768
+                        && displayModes[i].getBitDepth() == színMélység
+                        && displayModes[i].getRefreshRate() 
+                        == frissítésiFrekvencia) {
+                    graphicsDevice.setDisplayMode(displayModes[i]);
+                    dm1024x768 = true;
+                    break;
+                }
+            }
+            if(!dm1024x768)
+                System.out.println("Nem megy az 1024x768, de a példa képméretei ehhez a felbontáshoz vannak állítva.");
+            
+        } else {
+            setSize(szélesség, magasság);
+            validate();
+            setVisible(true);
+        }
+        
+        createBufferStrategy(2);
+        
+        bufferStrategy = getBufferStrategy();
+        
+    }
+                
+]]></programlisting>
+        <para>
             Ha ezekkel megvagyunk, a program alapértelmezetten 4:3 képarányra lett tervezve, így csak akkor futtathatjuk, ha a monitorunk támogatja a felbontást teljes képernyőben. Erre is van egy függvényünk, mégpedig a
             graphicsDevice.isFullScreenSupported(), amely megmondja, hogy futtatható-e a program teljes képernyőben. graphicsDevice.setFullScreenWindow(this) függvény segítségével a programunk elindul 
             full screen módban. Amennyiben nem támogatott a teljes képernyős mód, a program elindul keretes ablak módban, 1024x768-as felbontásban.
@@ -66,7 +130,7 @@ Lásd https://youtu.be/XpBnR31BRJY
         <para>Tutor: Győri Márk</para>
         <para>
             A mandelbrot png generátorhoz szükségünk van a libpng könyvtárra. Ezt letöltve beincludeoljuk a cpp fájlunkba. A perceptron osztály a Nahshon projektből lett átemelve, majd implementálva
-            a kódba. Ezt a mlp.hpp headerben tároljuk. A futtatás a forrásfájl nevének bekérésével együtt történik, amit első argumentumként kell bevinnünk. Ha ezzel megvagyunk, bekérjük a magasságát, valamint
+            a kódba. Ezt a mlp.hpp headerben tároljuk. A futtatás a forrásfájl nevének bekérésével együtt történik, amit első argumentumként kell bevinnünk. Ha ezzel megvagyunk, megkapjuk a magasságát, valamint
             a szélességét. Ezt összeszorozzuk, majd példányosítjuk a perceptron osztályunkat a kapott érték segítségével. Ezek után végigmegyünk a kép minden pixelén, amit átállít pirosra. Ez után kiírja az
             eredményt a standard outputra. Ha lefuttot a program, felszabadítja a memóriát.
         </para>

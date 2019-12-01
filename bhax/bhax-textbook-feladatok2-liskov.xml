@@ -150,7 +150,8 @@ int main() {
 }
 ]]></programlisting>
 <para>
-    Ha megpróbáljuk lefordítani a programot, hibát kapunk, miszerint a téglalap osztály nem tartalmaz terület függvényt. Ha azt a sort kiszedjük belőle, minden gond nélkül lefordul. Ugyanez Javában így néz ki:
+    Ha megpróbáljuk lefordítani a programot, hibát kapunk, miszerint a téglalap osztály nem tartalmaz terület függvényt. Ez azért van, mert a négyzet osztály ismeri a téglalaptól örökölt függvényeket, ez viszot visszafelé nem igaz.
+    Ha azt a sort kiszedjük belőle, minden gond nélkül lefordul. Ugyanez Javában így néz ki:
 </para>
         <programlisting language='java'><![CDATA[
 class Teglalap {

@@ -212,7 +212,9 @@ class Decode {
 }
         ]]></programlisting>
         <para>A Decode osztály tartalmaz minden olyan funkciót, amely szükséges lesz a továbbiakban. Itt található a loadFreqList funkció, amely betölti a karaktertáblázatunk. Ez egy tabulátorral
-        elválasztott, első oszlopban a betű, második oszlopban az előfrodulások száma kettőséből álló állomány. Ezeket meghívva a main függvényben, valami ilyesmi eredményt kapunk:</para>
+        elválasztott, első oszlopban a betű, második oszlopban az előfrodulások száma kettőséből álló állomány. A metódus meghívása után elemzi, hogy melyik karakterből mennyi található a szövegben. Ez alapján fogja kiszámolni, hogy melyik karaktert rendelje
+        hozzá a visszatört szöveghez. Ha space-től eltérő karaktert talál, akkor megnézi, van e már a listában. Ha van, növeli az értékét eggyel. Ha nincs, akkor az értékét egyesre állítja. Ha lefutott, megkapjuk a szöveg karaktergyakorisági táblázatát.
+        A végeredmény valahogy így fog kinézni:</para>
 <mediaobject>
                 <imageobject>
                     <imagedata fileref="img/rsaout.png"  scale="100"/>

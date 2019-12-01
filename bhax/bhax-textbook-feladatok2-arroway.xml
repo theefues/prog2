@@ -145,27 +145,7 @@ private:
 
 #endif]]></programlisting>
 
-
-
-        
     </section>        
-
-    <section>
-        <title>Homokozó</title>
-        <para>
-Írjuk át az első védési programot (LZW binfa) C++ nyelvről Java nyelvre, ugyanúgy működjön!
-Mutassunk rá, hogy gyakorlatilag a pointereket és referenciákat kell kiirtani és minden máris működik
-(erre utal a feladat neve, hogy Java-ban minden referencia, nincs választás, hogy mondjuk egy
-attribútum pointer, referencia vagy tagként tartalmazott legyen).
-Miután már áttettük Java nyelvre, tegyük be egy Java Servletbe és a böngészőből GET-es kéréssel
-(például a böngésző címsorából) kapja meg azt a mintát, amelynek kiszámolja az LZW binfáját!</para>
-        <para>
-            Megoldás forrása: <link xlink:href="https://github.com/theefues/prog2/blob/master/Arroway/Polargen.java">https://github.com/theefues/prog2/blob/master/Arroway/Polargen.java</link>        
-        </para>
-        <para>
-            Tanulságok, tapasztalatok, magyarázat...
-        </para>
-    </section>  
 
     <section>
         <title>„Gagyi”</title>
@@ -208,7 +188,8 @@ class Gagyi {
 
         <para>
             A while ciklusban deklarált formális értékei, amennyiben 127-nél nagyobb értéket vesznek fel, végtelen ciklusba lép be. Az importált
-            könyvtár a JDK Number könyvtárából veszi az x és a t értékét, ezzel magyarázható a jelenség, mivel az itt jelenlévő Integer csak -128 és 127 közötti értékekkel operál.
+            könyvtár a JDK Number könyvtárából veszi az x és a t értékét, ezzel magyarázható a jelenség, mivel az itt jelenlévő Integer csak -128 és 127 közötti értékekkel operál, ezért ha ebből a tartományból választunk értéket, egy létező objektumra kapunk referenciát, ezért
+            nem teljesül a feltétel.
         </para>
         
     </section>  
